@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AgriInsight Nigeria</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>🌾 AgriInsight</h1>
+<p>AI Crop Yield Predictor for Nigerian Farmers</p>
+
+<div class="box">
+
+    <input type="number" id="rainfall" placeholder="Rainfall (mm)">
+    <input type="number" id="temp" placeholder="Temperature (°C)">
+    <input type="number" id="fert" placeholder="Fertilizer (kg)">
+
+    <button onclick="predict()">Predict Yield</button>
+
+    <h3 id="result"></h3>
+
+</div>
+
+<script>
+function predict() {
+
+    let data = new FormData();
+
+    data.append("rainfall", document.getElementById("rainfall").value);
+    data.append("temperature", document.getElementById("temp").value);
+    data.append("fertilizer", document.getElementById("fert").value);
+
+    fetch("/predict", {
+        method: "POST",
+        body: data
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText =
+            "Expected Yield: " + data.yield + " tons/hectare";
+    });
+}
+</script>
+
+</body>
+</html>
